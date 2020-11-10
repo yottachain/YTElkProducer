@@ -1,8 +1,8 @@
 package elk
 
 import (
-	"YTElkProducer/conf"
 	"github.com/elastic/go-elasticsearch/v8"
+	"github.com/yottachain/YTElkProducer/conf"
 	"testing"
 	"time"
 )

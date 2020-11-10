@@ -1,4 +1,4 @@
-module YTElkProducer
+module github.com/yottachain/YTElkProducer
 
 go 1.14
 

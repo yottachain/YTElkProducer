@@ -1,12 +1,12 @@
 package elk
 
 import (
-	"YTElkProducer/conf"
 	"bytes"
 	"context"
 	"encoding/json"
 	"github.com/elastic/go-elasticsearch/v8"
 	"github.com/elastic/go-elasticsearch/v8/esapi"
+	"github.com/yottachain/YTElkProducer/conf"
 	"log"
 	"strings"
 	"time"
