@@ -1,6 +1,7 @@
 package elk
 
 import (
+	"YTElkProducer/conf"
 	"bytes"
 	"context"
 	"encoding/json"
@@ -9,7 +10,6 @@ import (
 	"log"
 	"strings"
 	"time"
-	"yt-elk-producer/conf"
 )
 
 func NewClient(cfg conf.YTESConfig) Client {

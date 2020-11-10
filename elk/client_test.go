@@ -1,10 +1,10 @@
 package elk
 
 import (
+	"YTElkProducer/conf"
 	"github.com/elastic/go-elasticsearch/v8"
 	"testing"
 	"time"
-	"yt-elk-producer/conf"
 )
 
 type TestStruct struct {

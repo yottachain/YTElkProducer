@@ -1,4 +1,4 @@
-module yt-elk-producer
+module YTElkProducer
 
 go 1.14
 
