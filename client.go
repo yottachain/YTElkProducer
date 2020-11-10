@@ -1,4 +1,4 @@
-package elk
+package YTElkProducer
 
 type Client interface {
 	// AddDocAsync add generic doc to elk
