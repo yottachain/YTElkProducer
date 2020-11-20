@@ -13,10 +13,10 @@ import (
 	"github.com/yottachain/YTElkProducer/conf"
 )
 
-func NewClient(cfg conf.YTESConfig) Client {
+func NewClient(cfg conf.YTESConfig) (Client, error) {
 	es, err := elasticsearch.NewClient(cfg.ESConf)
 	if err != nil {
-		log.Println(err)
+		return nil, err
 	}
 	if cfg.DebugMode {
 		info, err := es.Info()
@@ -37,7 +37,7 @@ func NewClient(cfg conf.YTESConfig) Client {
 	return &YTElasticSearchClient{
 		es:         es,
 		ytESConfig: cfg,
-	}
+	}, nil
 }
 
 type YTElasticSearchClient struct {
