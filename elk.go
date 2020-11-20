@@ -4,18 +4,19 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
-	"github.com/elastic/go-elasticsearch/v8"
-	"github.com/elastic/go-elasticsearch/v8/esapi"
-	"github.com/yottachain/YTElkProducer/conf"
 	"log"
 	"strings"
 	"time"
+
+	"github.com/elastic/go-elasticsearch/v8"
+	"github.com/elastic/go-elasticsearch/v8/esapi"
+	"github.com/yottachain/YTElkProducer/conf"
 )
 
 func NewClient(cfg conf.YTESConfig) Client {
 	es, err := elasticsearch.NewClient(cfg.ESConf)
 	if err != nil {
-		panic(err)
+		log.Println(err)
 	}
 	if cfg.DebugMode {
 		info, err := es.Info()
