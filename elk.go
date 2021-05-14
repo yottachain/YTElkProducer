@@ -51,55 +51,59 @@ func (c *YTElasticSearchClient) indexName() string {
 	return strings.Trim(strings.Trim(c.ytESConfig.IndexPrefix, "-"), "_") + "-" + indexDate
 }
 
+func (c *YTElasticSearchClient) AddDoc(doc interface{}) {
+	body, err := json.Marshal(doc)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	req := esapi.IndexRequest{
+		Index: c.indexName(),
+		Body:  bytes.NewReader(body),
+	}
+	res, err := req.Do(context.Background(), c.es)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	if c.ytESConfig.DebugMode {
+		if res.IsError() {
+			log.Println("Error parsing response body: ", err)
+		}
+	}
+}
+
 func (c *YTElasticSearchClient) AddDocAsync(doc interface{}) {
-	go func() {
-		body, err := json.Marshal(doc)
-		if err != nil {
-			log.Println(err)
-			return
+	go c.AddDoc(doc)
+}
+
+func (c *YTElasticSearchClient) AddLog(logBody interface{}) {
+	logDoc := &LogDocument{
+		Timestamp: time.Now(),
+		Log:       logBody,
+	}
+	body, err := json.Marshal(logDoc)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	req := esapi.IndexRequest{
+		Index: c.indexName(),
+		Body:  bytes.NewReader(body),
+	}
+	res, err := req.Do(context.Background(), c.es)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	if c.ytESConfig.DebugMode {
+		log.Println(string(body))
+		if res.IsError() {
+			log.Println("Error parsing response body: ", err)
 		}
-		req := esapi.IndexRequest{
-			Index: c.indexName(),
-			Body:  bytes.NewReader(body),
-		}
-		res, err := req.Do(context.Background(), c.es)
-		if err != nil {
-			log.Println(err)
-			return
-		}
-		if c.ytESConfig.DebugMode {
-			if res.IsError() {
-				log.Println("Error parsing response body: ", err)
-			}
-		}
-	}()
+	}
 }
 
 func (c *YTElasticSearchClient) AddLogAsync(logBody interface{}) {
-	go func() {
-		logDoc := &LogDocument{
-			Timestamp: time.Now(),
-			Log:       logBody,
-		}
-		body, err := json.Marshal(logDoc)
-		if err != nil {
-			log.Println(err)
-			return
-		}
-		req := esapi.IndexRequest{
-			Index: c.indexName(),
-			Body:  bytes.NewReader(body),
-		}
-		res, err := req.Do(context.Background(), c.es)
-		if err != nil {
-			log.Println(err)
-			return
-		}
-		if c.ytESConfig.DebugMode {
-			log.Println(string(body))
-			if res.IsError() {
-				log.Println("Error parsing response body: ", err)
-			}
-		}
-	}()
+	go c.AddLog(logBody)
 }

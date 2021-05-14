@@ -1,10 +1,11 @@
 package YTElkProducer
 
 import (
-	"github.com/elastic/go-elasticsearch/v8"
-	"github.com/yottachain/YTElkProducer/conf"
 	"testing"
 	"time"
+
+	"github.com/elastic/go-elasticsearch/v8"
+	"github.com/yottachain/YTElkProducer/conf"
 )
 
 type TestStruct struct {
@@ -25,7 +26,7 @@ func TestAddLog(t *testing.T) {
 		IndexPrefix: "main-net-dn",
 		IndexType:   "log",
 	}
-	client := NewClient(ytESConfig)
+	client, _ := NewClient(ytESConfig)
 	t1 := &TestStruct{
 		Aaa:  "aaa",
 		Bbb:  0,
